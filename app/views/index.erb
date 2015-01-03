@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>boar</title>
+    <meta name="description" content="Minimalistic code sharing website.">
+
+    <!-- CSS -->
+    <link href="/css/app.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.min.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div id="sidebar">
+        <div class="menu">
+            <a href="#" id="button-save" data-toggle="tooltip" data-placement="right" title="Save"><span class="glyphicon glyphicon-save"></span></a>
+            <% if !key.nil? %><a href="/r/<%= key %>" data-toggle="tooltip" data-placement="right" title="Raw"><span class="glyphicon glyphicon-tasks"></span></a><% end %>
+            <a href="#" id="button-upload" data-toggle="tooltip" data-placement="right" title="Upload"><span class="glyphicon glyphicon-picture"></span></a>
+            <a href="#" data-toggle="modal" data-target="#infoModal"><span class="glyphicon glyphicon-info-sign"></span></a>
+        </div>
+        <div class="site">
+            <a href="/"><img src="/logo.png" alt="boar"></a>
+        </div>
+    </div>
+
+    <div id="editor"><%= code %></div>
+    <input type="file" name="blob" style="display: none;">
+
+    <!-- Modals -->
+    <div class="modal fade" id="dropModal">
+        <div class="modal-dialog drop-dialog">
+            <h1 class="text-center">Drop here to upload</h1>
+        </div>
+    </div>
+    <div class="modal fade" id="infoModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title">Information</h3>
+                </div>
+                <div class="modal-body">
+                    <h4>Privacy Policy</h4>
+                    <p>Internet use and communication is subject to attack, interception, loss and alteration. On whichever site you provide personal information, it is possible for a third party to view or later retrieve and/or modify that information. You acknowledge and agree that 'Boar', its maintainers, owners, and/or employees shall not be responsible for any damages you may suffer as a result of the transmission or storage of confidential or sensitive information communicated over the Internet or otherwise, and that all such communications will be at your own risk. Furthermore, 'Boar' shall not be liable for maintaining the confidentiality of any communications between 'Boar'’s representatives, affiliates, partners, users, or customers.</p>
+                    <h4>Terms of Service</h4>
+                    <p>Under no circumstances, including, but not limited to, negligence, shall 'Boar' or its affiliates be liable to you for any damages of any kind (including, but not limited to, compensatory damages, lost profits, lost data or any form of special, incidental, indirect, consequential or punitive damages whether based on breach of contract or warranty, tort, product liability or otherwise) that result from the use of, or the inability to use, this site or 'Boar'’s products or services. You specifically acknowledge and agree that 'Boar' is not liable for any defamatory, offensive or illegal conduct of any user, customer, or representative. If you are dissatisfied with any material or content on 'Boar'’s web site, products, external communications, services, or with any of 'Boar'’s terms and conditions, your sole and exclusive remedy is to discontinue using 'Boar' and its web sites, products, and services.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ext-modelist.js"></script>
+    <script src="/js/app.min.js"></script>
+</body>
+</html>

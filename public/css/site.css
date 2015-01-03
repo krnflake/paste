@@ -1,0 +1,34 @@
+#editor {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 70px;
+}
+#sidebar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 70px;
+    background: #dcdcdc;
+}
+.menu a {
+    padding: 27px;
+    display: block;
+    position: relative;
+    color: #333;
+}
+.menu a:hover {
+    background: #ebebeb;
+}
+.site a {
+    position: absolute;
+    bottom: 0;
+}
+.modal-dialog.drop-dialog {
+    margin: 230px auto;
+}
+.modal-dialog.drop-dialog h1 {
+    color: #fff;
+}
