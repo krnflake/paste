@@ -5,7 +5,6 @@ $(function() {
     var changed = false;
     var modelist = ace.require('ace/ext/modelist');
     var editor = ace.edit("editor");
-    editor.setOptions({ fontSize: "11pt" });
     editor.setTheme("ace/theme/crimson_editor");
     mode = modelist.getModeForPath(location.pathname).mode;
     editor.getSession().setMode(mode);
@@ -52,6 +51,7 @@ $(function() {
 
     document.ondrop = function(e) {
         e.preventDefault();
+        e.stopPropagation();
         upload(e.dataTransfer.files[0]);
     };
 
@@ -62,13 +62,20 @@ $(function() {
 
         // now post a new XHR request
         var xhr = new XMLHttpRequest();
+
+        NProgress.start();
         xhr.open('POST', '/p');
+        xhr.onprogress = function (e) {
+            if (e.lengthComputable) {
+                NProgress.set(e.loaded / e.total);
+            }
+        };
         xhr.onload = function () {
+            NProgress.done();
             if (xhr.status === 200) {
                 window.location = JSON.parse(xhr.response).raw;
             }
         };
-        
         xhr.send(formData);
-    }
+    };
 });

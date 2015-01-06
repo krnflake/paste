@@ -10,11 +10,32 @@ class App < Sinatra::Base
     Dir.mkdir(dir) unless Dir.exists?(dir)
 
     configure do
+        URL = "https://boar.krn.ovh"
         DB = LevelDB::DB.new 'leveldb'
     end
 
     get "/" do
-        erb :index, :locals => { :key => nil, :code => "" }
+        code = <<-END
+boar(1)                          BOAR                          boar(1)
+
+NAME
+boar: minimalistic code sharing website.
+
+SYNOPSIS
+use this form and the buttons on the left
+
+SYNOPSIS CMD
+<command> | curl -F 'code=<-' https://boar.krn.ovh/p
+
+DESCRIPTION
+add an file extension to the url to get syntax highlighting
+
+EXAMPLES
+~$ cat bin/ching | curl -F 'code=<-' https://boar.krn.ovh/p
+{"success":true,"key":"aXZI","link":"https://boar.krn.ovh/aXZI","raw":"https://boar.krn.ovh/r/aXZI.txt"}
+~$ firefox https://boar.krn.ovh/aXZI
+        END
+        erb :index, :locals => { :key => nil, :code => code }
     end
 
     get "/:key" do
@@ -42,8 +63,8 @@ class App < Sinatra::Base
         else
             halt 403, "Forbidden"
         end
-        DB.put(key, { :key => key, :filename => "/#{key + ext}", :ip => request.ip, :time => DateTime.now  }.to_json)
-        { :success => true, :key => key, :link => "/#{key}", :raw => "/r/#{key + ext}" }.to_json
+        DB.put(key, { :key => key, :filename => "#{key + ext}", :ip => request.ip, :time => DateTime.now  }.to_json)
+        { :success => true, :key => key, :link => "#{URL}/#{key}", :raw => "#{URL}/r/#{key + ext}" }.to_json
     end
 
     get "/r/:key" do
@@ -56,7 +77,7 @@ class App < Sinatra::Base
     end
 
     def genHash(i = 4)
-        hash = [*("a".."z"), *("A".."Z"), *("0".."9")].shuffle[0, i].join
+        hash = [*("a".."z"), *("A".."Z"), *("0".."9"), "-", "_", ".", "~"].shuffle[0, i].join
         hash = genHash(i + 1) if DB.exists?(hash)
         hash
     end
