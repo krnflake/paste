@@ -37,23 +37,23 @@ $(function() {
         upload($("input[type=file]")[0].files[0]);
     });
 
-    document.ondragover = function(e) {
+    $("#sidebar").on("dragover", function(e) {
         e.preventDefault();
         e.stopPropagation();
-        $('#dropModal').modal('show');
-    }
+        $('#dropMsg').show();
+    });
 
-    document.ondragleave = function(e) {
+    $("#sidebar").on("dragleave", function(e) {
         e.preventDefault();
         e.stopPropagation();
-        $('#dropModal').modal('hide');
-    }
+        $('#dropMsg').hide();
+    });
 
-    document.ondrop = function(e) {
+    $("#sidebar").on("drop", function(e) {
         e.preventDefault();
         e.stopPropagation();
         upload(e.dataTransfer.files[0]);
-    };
+    });
 
     function upload(file) {
         var formData = new FormData();
