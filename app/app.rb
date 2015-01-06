@@ -4,7 +4,6 @@ require "json"
 
 class App < Sinatra::Base
     set :public_folder, "public"
-    set :bind, "0.0.0.0"
 
     dir = "uploads"
     Dir.mkdir(dir) unless Dir.exists?(dir)
