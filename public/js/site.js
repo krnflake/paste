@@ -5,7 +5,6 @@ $(function() {
     var changed = false;
     var modelist = ace.require('ace/ext/modelist');
     var editor = ace.edit("editor");
-    editor.setOptions({ fontSize: "11pt" });
     editor.setTheme("ace/theme/crimson_editor");
     mode = modelist.getModeForPath(location.pathname).mode;
     editor.getSession().setMode(mode);
@@ -68,7 +67,7 @@ $(function() {
                 window.location = JSON.parse(xhr.response).raw;
             }
         };
-        
+
         xhr.send(formData);
     }
 });
