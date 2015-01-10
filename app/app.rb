@@ -1,4 +1,5 @@
 require "sinatra/base"
+require "erb"
 require "leveldb"
 require "json"
 
@@ -54,19 +55,21 @@ EXAMPLES
     post "/p" do
         content_type :json
         key = genHash()
+
         if params[:code] && !params[:code].empty?
             ext = ".txt"
             target = "#{dir}/#{key + ext}"
             File.open(target, "wb") { |f| f.write(params[:code]) }
         elsif params[:blob] then
             blob = params[:blob]
-            halt 403, "Forbidden" unless blob.nil?
+            halt 403, "Forbidden" if blob.nil?
             ext = File.extname(blob[:filename])
             target = "#{dir}/#{key + ext}"
             File.open(target, "wb") { |f| f.write blob[:tempfile].read }
         else
             halt 403, "Forbidden"
         end
+
         DB.put(key, { :key => key, :filename => "#{key + ext}", :ip => request.ip, :time => DateTime.now  }.to_json)
         { :success => true, :key => key, :link => "#{URL}/#{key}", :raw => "#{URL}/r/#{key + ext}" }.to_json
         p ({ :success => true, :key => key, :link => "#{URL}/#{key}", :raw => "#{URL}/r/#{key + ext}" }.to_json)
@@ -87,6 +90,12 @@ EXAMPLES
         hash = [*("a".."z"), *("A".."Z"), *("0".."9"), "-", "_", ".", "~"].shuffle[0, i].join
         hash = genHash(i + 1) if DB.exists?(hash)
         hash
+    end
+
+    helpers do
+        def raw(text)
+            Rack::Utils.escape_html(text)
+        end
     end
 
     # start the server if ruby file executed directly
