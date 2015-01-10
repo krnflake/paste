@@ -20,7 +20,7 @@ $(function() {
         if (!code || 0 === code.length || !changed) return;
         $.ajax({
             type: "POST",
-            url: "/p",
+            url: "/",
             data: { code: code }
         })
         .success(function(data) {
@@ -52,7 +52,8 @@ $(function() {
     $("#sidebar").on("drop", function(e) {
         e.preventDefault();
         e.stopPropagation();
-        upload(e.dataTransfer.files[0]);
+        $('#dropMsg').hide();
+        if (e.dataTransfer) upload(e.dataTransfer.files[0]);
     });
 
     function upload(file) {
@@ -64,7 +65,7 @@ $(function() {
         var xhr = new XMLHttpRequest();
 
         NProgress.start();
-        xhr.open('POST', '/p');
+        xhr.open('POST', '/');
         xhr.onprogress = function (e) {
             if (e.lengthComputable) {
                 NProgress.set(e.loaded / e.total);

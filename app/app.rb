@@ -1,5 +1,4 @@
 require "sinatra/base"
-require "erb"
 require "leveldb"
 require "json"
 
@@ -23,36 +22,26 @@ NAME
 boar: minimalistic code sharing website.
 
 SYNOPSIS
-use this form and the buttons on the left
+use this editor and the buttons on the left
 file upload requires a modern browser
 drag and drop a file on the left sidebar to upload it
 
 SYNOPSIS CMD
-<command> | curl -F 'code=<-' https://boar.krn.ovh/p
+<command> | curl -F 'code=<-' https://boar.krn.ovh
 
 DESCRIPTION
 add an file extension to the url to get syntax highlighting
 size limit is 5 MB
 
 EXAMPLES
-~$ cat bin/ching | curl -F 'code=<-' https://boar.krn.ovh/p
+~$ cat bin/ching | curl -F 'code=<-' https://boar.krn.ovh
 {"success":true,"key":"aXZI","link":"https://boar.krn.ovh/aXZI","raw":"https://boar.krn.ovh/r/aXZI.txt"}
 ~$ firefox https://boar.krn.ovh/aXZI
         END
         erb :index, :locals => { :key => nil, :code => code }
     end
 
-    get "/:key" do
-        key = params[:key]
-        key = key[0 .. key.index(".") - 1] unless key.index(".").nil?
-        halt 404, "Not Found" unless DB.exists?(key)
-        blob = JSON.parse(DB.get(key))
-        target = %(#{dir}/#{blob["filename"]})
-        code = File.open(target, "r") { |f| f.read() }
-        erb :index, :locals => { :key => key, :code => code }
-    end
-
-    post "/p" do
+    post "/" do
         content_type :json
         key = genHash()
 
@@ -72,7 +61,16 @@ EXAMPLES
 
         DB.put(key, { :key => key, :filename => "#{key + ext}", :ip => request.ip, :time => DateTime.now  }.to_json)
         { :success => true, :key => key, :link => "#{URL}/#{key}", :raw => "#{URL}/r/#{key + ext}" }.to_json
-        p ({ :success => true, :key => key, :link => "#{URL}/#{key}", :raw => "#{URL}/r/#{key + ext}" }.to_json)
+    end
+
+    get "/:key" do
+        key = params[:key]
+        key = key[0 .. key.index(".") - 1] unless key.index(".").nil?
+        halt 404, "Not Found" unless DB.exists?(key)
+        blob = JSON.parse(DB.get(key))
+        target = %(#{dir}/#{blob["filename"]})
+        code = File.open(target, "r") { |f| f.read() }
+        erb :index, :locals => { :key => key, :code => code }
     end
 
     get "/r/:key" do
