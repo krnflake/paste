@@ -1,8 +1,13 @@
+
+#! /usr/bin/env ruby
+
 require "sinatra/base"
 require "leveldb"
 require "json"
 
 class App < Sinatra::Base
+    Encoding.default_external = "UTF-8"
+
     set :public_folder, "public"
     set :bind, "0.0.0.0"
 
@@ -10,8 +15,8 @@ class App < Sinatra::Base
     Dir.mkdir(dir) unless Dir.exists?(dir)
 
     configure do
-        URL = "https://boar.krn.ovh"
-        DB = LevelDB::DB.new 'leveldb'
+        URL = "https://boar.krnflake.ovh"
+        DB = LevelDB::DB.new "leveldb"
     end
 
     get "/" do
@@ -34,9 +39,9 @@ add an file extension to the url to get syntax highlighting
 size limit is 5 MB
 
 EXAMPLES
-~$ cat bin/ching | curl -F 'code=<-' https://boar.krn.ovh
-{"success":true,"key":"aXZI","link":"https://boar.krn.ovh/aXZI","raw":"https://boar.krn.ovh/r/aXZI.txt"}
-~$ firefox https://boar.krn.ovh/aXZI
+~$ cat bin/ching | curl -F 'code=<-' https://boar.krnflake.ovh
+{"success":true,"key":"aXZI","link":"https://boar.krnflake.ovh/aXZI","raw":"https://boar.krnflake.ovh/r/aXZI.txt"}
+~$ firefox https://boar.krnflake.ovh/aXZI
         END
         erb :index, :locals => { :key => nil, :code => code }
     end
@@ -85,7 +90,7 @@ EXAMPLES
     end
 
     def genHash(i = 4)
-        hash = [*("a".."z"), *("A".."Z"), *("0".."9"), "-", "_", ".", "~"].shuffle[0, i].join
+        hash = [*("a".."z"), *("A".."Z"), *("0".."9"), "-", "_", "~"].shuffle[0, i].join
         hash = genHash(i + 1) if DB.exists?(hash)
         hash
     end

@@ -1,11 +1,11 @@
 {
   "name": "boar",
-  "description": "Minimalistic code sharing website.",
+  "description": "Minimalistic code sharing website",
   "devDependencies": {
-    "gulp": "^3.8.10",
-    "gulp-concat": "^2.4.3",
-    "gulp-minify-css": "^0.3.11",
-    "gulp-rev": "^2.0.1",
-    "gulp-uglify": "^1.0.2"
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-minify-css": "^1.2.0",
+    "gulp-rev": "^5.0.1",
+    "gulp-uglify": "^1.2.0"
   }
 }
