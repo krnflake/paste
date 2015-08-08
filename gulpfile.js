@@ -11,7 +11,7 @@ gulp.task('default', function() {
         .pipe(rev())
         .pipe(gulp.dest('public/css/'));
 
-    gulp.src(['./public/js/jquery-2.1.3.min.js', './public/js/bootstrap.min.js', './public/js/nprogress.js', './public/js/site.js'])
+    gulp.src(['./public/js/jquery-2.1.4.min.js', './public/js/bootstrap.min.js', './public/js/nprogress.js', './public/js/site.js'])
         .pipe(concat('app.min.js'))
         .pipe(uglify())
         .pipe(rev())
