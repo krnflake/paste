@@ -15,7 +15,7 @@ class App < Sinatra::Base
     Dir.mkdir(dir) unless Dir.exists?(dir)
 
     configure do
-        URL = "https://boar.krnflake.ovh"
+        URL = "https://paste.krnflake.ovh"
         DB = LevelDB::DB.new "leveldb"
     end
 
@@ -32,16 +32,16 @@ file upload requires a modern browser
 drag and drop a file on the left sidebar to upload it
 
 SYNOPSIS CMD
-<command> | curl -F 'code=<-' https://boar.krn.ovh
+<command> | curl -F 'code=<-' https://paste.krnflake.ovh
 
 DESCRIPTION
 add an file extension to the url to get syntax highlighting
 size limit is 5 MB
 
 EXAMPLES
-~$ cat bin/ching | curl -F 'code=<-' https://boar.krnflake.ovh
-{"success":true,"key":"aXZI","link":"https://boar.krnflake.ovh/aXZI","raw":"https://boar.krnflake.ovh/r/aXZI.txt"}
-~$ firefox https://boar.krnflake.ovh/aXZI
+~$ cat bin/ching | curl -F 'code=<-' https://paste.krnflake.ovh
+{"success":true,"key":"aXZI","link":"https://paste.krnflake.ovh/aXZI","raw":"https://boar.krnflake.ovh/r/aXZI.txt"}
+~$ firefox https://paste.krnflake.ovh/aXZI
         END
         erb :index, :locals => { :key => nil, :code => code }
     end
